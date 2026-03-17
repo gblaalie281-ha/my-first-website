@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Game Website</title>
+
+  <style>
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    h2 {
+      color: #444;
+    }
+
+    p {
+      color: #666;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    button {
+      background-color: #4facfe;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🎮 My Game Website</h1>
+  <p>Welcome! Try the number guessing game.</p>
+
+  <button onclick="sayHello()">Click Me</button>
+
+  <h2>Number Guessing Game</h2>
+  <p>Guess a number between 1 and 10:</p>
+
+  <input type="number" id="guessInput" />
+  <br>
+
+  <button onclick="checkGuess()">Guess!</button>
+  <button onclick="resetGame()">Reset 🔄</button>
+
+  <p id="feedback"></p>
+
+</div>
+
+<script>
+  function sayHello() {
+    alert("Hello! You are now learning web development!");
+  }
+
+  let secretNumber = Math.floor(Math.random() * 10) + 1;
+
+  function checkGuess() {
+    let guess = Number(document.getElementById("guessInput").value);
+    let feedback = document.getElementById("feedback");
+
+    if (guess === secretNumber) {
+      feedback.textContent = "🎉 Correct! You guessed it!";
+    } else if (guess < secretNumber) {
+      feedback.textContent = "📉 Too low! Try again.";
+    } else {
+      feedback.textContent = "📈 Too high! Try again.";
+    }
+  }
+
+  function resetGame() {
+    secretNumber = Math.floor(Math.random() * 10) + 1;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("guessInput").value = "";
+    alert("Game reset! Try again.");
+  }
+</script>
+
+</body>
+</html>
