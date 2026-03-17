@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Game Website</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 450px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h1 { color: #333; }
+    h2 { color: #444; }
+    p { color: #666; font-size: 18px; }
+    input {
+      padding: 10px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #4facfe;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #007bff; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎮 My Game Website</h1>
+  <p>Welcome! Try the number guessing game.</p>
+
+  <button onclick="sayHello()">Click Me</button>
+
+  <h2>Number Guessing Game</h2>
+  <p id="rangeDisplay">Guess a number between 1 and 10:</p>
+
+  <input type="number" id="guessInput" />
+  <br>
+
+  <button onclick="checkGuess()">Guess!</button>
+  <button onclick="resetGame()">Reset 🔄</button>
+
+  <p id="feedback"></p>
+  <p id="levelDisplay">Level: 1</p>
+  <p id="attemptsDisplay">Attempts: 0</p>
+  <p id="scoreDisplay">Score: 0</p>
+  <p id="highScoreDisplay">High Score: 0</p>
+</div>
+
+<script>
+  // Embedded Base64 sounds (tiny click sounds)
+  const correctSound = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAAAB3AQACABAAZGF0YQAAAAA=");
+  const wrongSound   = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAAAB3AQACABAAZGF0YQAAAAA=");
+
+  let level = 1;
+  let maxNumber = 10;
+  let secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+  let attempts = 0;
+  let score = 0;
+  let highScore = 0;
+
+  function sayHello() {
+    alert("Hello! You are now learning web development!");
+  }
+
+  function updateDisplay() {
+    document.getElementById("levelDisplay").textContent = "Level: " + level;
+    document.getElementById("attemptsDisplay").textContent = "Attempts: " + attempts;
+    document.getElementById("scoreDisplay").textContent = "Score: " + score;
+    document.getElementById("highScoreDisplay").textContent = "High Score: " + highScore;
+    document.getElementById("rangeDisplay").textContent = "Guess a number between 1 and " + maxNumber + ":";
+  }
+
+  function checkGuess() {
+    let guess = Number(document.getElementById("guessInput").value);
+    let feedback = document.getElementById("feedback");
+    attempts++;
+
+    let difference = Math.abs(secretNumber - guess);
+
+    if (guess === secretNumber) {
+      feedback.textContent = "🎉 Correct! You guessed the number!";
+      correctSound.play(); // embedded sound plays reliably
+      score = Math.max(0, score + (maxNumber - attempts + 1) * 10);
+      if (score > highScore) highScore = score;
+      levelUp();
+    } else if (guess < secretNumber) {
+      feedback.textContent = difference <= 2 ? "📉 Too low, but very close!" : "📉 Too low! Try again.";
+      wrongSound.play();
+    } else {
+      feedback.textContent = difference <= 2 ? "📈 Too high, but very close!" : "📈 Too high! Try again.";
+      wrongSound.play();
+    }
+
+    updateDisplay();
+  }
+
+  function resetGame() {
+    secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("guessInput").value = "";
+    attempts = 0;
+    score = 0;
+    updateDisplay();
+    alert("Game reset! Try again.");
+  }
+
+  function levelUp() {
+    level++;
+    maxNumber = level * 10;
+    attempts = 0;
+    secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+    updateDisplay();
+    alert("🎉 Welcome to Level " + level + "! Guess a number between 1 and " + maxNumber);
+  }
+
+  updateDisplay();
+</script>
+
+</body>
+</html>
